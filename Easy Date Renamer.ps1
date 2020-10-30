@@ -1,9 +1,10 @@
-﻿Start-Transcript -Path $HOME -NoClobber
+﻿Start-Transcript
 
 #Set SD location as $Import 
 #Set Destination as $Path
 
 #Import Files to HD
+
 $import = 'H:\Upgrade'
 $Path = 'F:\Test'
 $NewPath = 'F:\Testing'
@@ -16,8 +17,10 @@ Get-ChildItem -Path $import | Copy-Item -Destination $Path
 #Still working on how to trim either right after or in the same operation
 
 Get-ChildItem -Path $Path *.mp3 | Rename-Item -NewName {$_.Name -Replace ('^\n*(\d{2})(\d{2})(\d{4})(\d{4})','TC $1-$2-$3-$4-')}
+
 #Move files into $NewPath\Year\Month created
 #Running in to problems with moving the files after they have been renamed - Likely due to 
+
   Get-ChildItem -File -Path $Path |
     ForEach-Object {
 
