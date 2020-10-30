@@ -1,11 +1,11 @@
-﻿#Set SD location as $Import 
-#Set Temp Destination as $Path
-#Set Final Destination as $NewPath
+Start-Transcript
 
-#Import Files to HD for renaming while maintaining original copy
+#Import Files to HD
+#Set SD location as $Import 
+#Set Destination as $Path
 
 $import = 'H:\Upgrade'
-$Path = "F:\Test"
+$Path = 'F:\Test'
 $NewPath = 'F:\Testing'
 
 #Test if $Path Exists, if not Create directory for Files to be transferred to
@@ -33,20 +33,17 @@ Get-ChildItem -Path $Path -Filter '*.mp3' | Rename-Item -NewName {$_.Name -Repla
 #Move files into $NewPath\Year\Month created
 #Running in to problems with moving the files after they have been renamed - Likely due to 
 
-  Get-ChildItem -File -Path $Path -Filter '*mp3' |
+  Get-ChildItem -Path $Path -Filter *.mp3 |
     ForEach-Object {
 
         $Year = $_.LastWriteTime.Year
         $Month = $_.LastWriteTime.Month
         $Monthname = (Get-Culture).DateTimeFormat.GetMonthName($Month)
-        $ArchDir = "$NewPath\$Year\$Monthname\$filename.FullName"
-        $filename = $_.Name
-
-
+        $ArchDir = "$NewPath\$Year\$Monthname\"
+        
         if (-not (Test-Path -Path $ArchDir)) { New-Item -ItemType "directory" -Path $ArchDir | Out-Null }
-        Move-Item -Path $Path -Destination $ArchDir
-        }
-
+        Move-Item -Path "$($_.FullName)\*.mp3" -Destination "$ArchDir\"
+    }
 
 #Would like to add a list of files renamed and where they moved to instead of just Enter to exit
 Read-Host -Prompt "Press Enter to exit"
