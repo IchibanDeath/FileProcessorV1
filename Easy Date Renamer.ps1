@@ -3,9 +3,11 @@
 #Set Final Destination as $NewPath
 
 #Import Files to HD for renaming while maintaining original copy
+$date = Get-Date -Format 'dddd MM-dd-yyyy'
+Start-Transcript -Path "F:\$date.txt"
 
 $import = 'H:\Upgrade'
-$Path = "F:\Test"
+$Path = 'F:\Test'
 $NewPath = 'F:\Testing'
 
 #Test if $Path Exists, if not Create directory for Files to be transferred to
@@ -33,7 +35,7 @@ Get-ChildItem -Path $Path -Filter '*.mp3' | Rename-Item -NewName {$_.Name -Repla
 #Move files into $NewPath\Year\Month created
 #Running in to problems with moving the files after they have been renamed - Likely due to 
 
-  Get-ChildItem -File -Path $Path -Filter '*mp3' |
+  Get-ChildItem -File -Path $Path -Filter '*.mp3' |
     ForEach-Object {
 
         $Year = $_.LastWriteTime.Year
