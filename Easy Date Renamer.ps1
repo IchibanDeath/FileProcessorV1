@@ -39,12 +39,10 @@ Get-ChildItem -Path $Path -Filter '*.mp3' | Rename-Item -NewName {$_.Name -Repla
         $Year = $_.LastWriteTime.Year
         $Month = $_.LastWriteTime.Month
         $Monthname = (Get-Culture).DateTimeFormat.GetMonthName($Month)
-        $ArchDir = "$NewPath\$Year\$Monthname\$filename.FullName"
-        $filename = $_.Name
-
+        $ArchDir = "$NewPath\$Year\$Monthname\"
 
         if (-not (Test-Path -Path $ArchDir)) { New-Item -ItemType "directory" -Path $ArchDir | Out-Null }
-        Move-Item -Path $Path -Destination $ArchDir
+        Move-Item -Path $Path\*.mp3 -Destination $ArchDir -Verbose
         }
 
 
