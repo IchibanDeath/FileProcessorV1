@@ -4,7 +4,8 @@
 
 #Import Files to HD for renaming while maintaining original copy
 $date = Get-Date -Format 'dddd MM-dd-yyyy'
-Start-Transcript -Path "F:\$date.txt"
+$i = 0  
+Start-Transcript -Path "F:\$date$i.txt"
 
 $import = 'H:\Upgrade'
 $Path = 'F:\Test'
