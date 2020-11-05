@@ -7,7 +7,7 @@ $date = Get-Date -Format 'dddd MM-dd-yyyy'
 $i = 0  
 Start-Transcript -Path "F:\$date$i.txt"
 
-$import = 'H:\Upgrade'
+$Import = 'H:\Upgrade'
 $Path = 'F:\Test'
 $NewPath = 'F:\Testing'
 
@@ -23,15 +23,28 @@ else
 Write-Host "The given folder path $Path already exists"; 
 }
 
-#Copy Items from SDcard/$import location
+#Copy Items from $Import location
 
-Get-ChildItem -Path $import -Filter '*.mp3' | Copy-Item -Destination $Path
+Get-ChildItem -Path $Import -Filter '*.mp3' | Copy-Item -Destination $Path
 
 #Rename Files adding Dashes between MM DD YYYY and HHMMSS 
 #Still working on how to trim either right after or in the same operation to delete everything after YYYY
 #Will need to handle duplicate files from the same date (Would like a, b, c- instead of 1, 2, 3-)
 
 Get-ChildItem -Path $Path -Filter '*.mp3' | Rename-Item -NewName {$_.Name -Replace ('^\n*(\d{2})(\d{2})(\d{4})(\d{4})','TC $1-$2-$3-$4-')}
+
+#Test if $NewPath exists and create if false
+
+if(!(Test-Path -path $NewPath))  
+{  
+ New-Item -ItemType directory -Path $NewPath
+ Write-Host "Folder path has been created successfully at: " $NewPath    
+ }
+else 
+{ 
+Write-Host "The given folder path $NewPath already exists"; 
+}
+
 
 #Move files into $NewPath\Year\Month created
 #Running in to problems with moving the files after they have been renamed - Likely due to 
