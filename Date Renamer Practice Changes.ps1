@@ -4,7 +4,8 @@
 
 #Import Files to HD for renaming while maintaining original copy
 $date = Get-Date -Format 'dddd MM-dd-yyyy'
-Start-Transcript -Path "F:\$date[++$i].txt" -NoClobber 
+Start-Transcript -Path "F:\$date.txt" -NoClobber -Append
+
 
 $Import = 'C:\Users\IchibanDeath\Desktop\New Directory'
 $Path = 'F:\Test'
@@ -23,6 +24,7 @@ Write-Host "The given folder path $Path already exists";
 Get-ChildItem -Path $Import -Filter '*.mp3' | Copy-Item -Destination $Path
 
 #Rename Files adding Dashes between MM DD YYYY and HHMMSS
+
 Get-ChildItem -Path $Path -Filter '*.mp3' | Rename-Item -NewName {$_.Name -Replace ('^\n*(\d{2})(\d{2})(\d{4})(\d{6})','TC $1-$2-$3-')}
 
 #Test if $NewPath exists and create if false
@@ -43,6 +45,7 @@ function fcopy ($SourceDir,$DestinationDir)
     $Year = $_.LastWriteTime.Year
     $Month = $_.LastWriteTime.Month
     $Monthname = (Get-Culture).DateTimeFormat.GetMonthName($Month)
+    $NewPath = 'F:\Testing'
     $ArchDir = "$NewPath\$Year\$Monthname\"
     #Array for iterate for same date, still trying to figure out how to get first file of a certain date to take the 'a'
 
